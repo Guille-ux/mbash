@@ -1,5 +1,5 @@
-#include "common.h"
-#include "mbtype.h"
+#include "../include/common.h"
+#include "../include/mbtype.h"
 
 int k_isspace(int c) {
     return (c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '\f' || c == '\v');
