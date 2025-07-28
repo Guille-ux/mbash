@@ -1,6 +1,4 @@
-#include "lexer.h"
-#include "../include/memory.h"
-#include "../include/ksysarena.h"
+#include "../include/lexer.h"
 #include <stddef.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -9,8 +7,6 @@ bool debug=false;
 static const char *source;
 static size_t current_pos;
 
-#define kmalloc(size) (stdmem_interface.kmalloc((size)))
-#define kfree(ptr) (stdmem_interface.kfree((ptr)))
 
 static char *m_strndup(const char *str, size_t n) {
 	char *ret=(char*)kmalloc(n+1);
