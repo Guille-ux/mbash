@@ -3,10 +3,6 @@
 
 #include "mbtype.h"
 #include "common.h"
-#include "../include/memory.h"
-#include <stdint.h>
-#include <stdbool.h>
-#include <stddef.h>
 #include "parser.h"
 #include "lexer.h"
 
