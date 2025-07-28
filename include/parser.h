@@ -4,8 +4,6 @@
 #include "lexer.h"
 #include "mbtype.h"
 #include "common.h"
-#include "../include/ksysarena.h"
-#include "../include/memory.h"
 
 typedef enum {
 	NODE_PROGRAM,
