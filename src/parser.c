@@ -9,13 +9,9 @@
  *
  */
 
-#include "parser.h"
-#include "lexer.h"
-#include "mbtype.h"
-#include "../include/memory.h"
-
-#define kmalloc(size) (stdmem_interface.kmalloc((size)))
-#define kfree(ptr) (stdmem_interface.kfree((ptr)))
+#include "../include/parser.h"
+#include "../include/lexer.h"
+#include "../include/mbtype.h"
 
 static Token *tokens;
 static size_t token_index;
