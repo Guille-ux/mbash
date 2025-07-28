@@ -1,7 +1,4 @@
-#include "eval.h"
-
-#define kmalloc(size) (stdmem_interface.kmalloc((size)))
-#define kfree(ptr) (stdmem_interface.kfree((ptr)))
+#include "../include/eval.h"
 
 // Value
 static ShellValue evalExpr(ASTNode *expr, EvalCtx *ctx);
