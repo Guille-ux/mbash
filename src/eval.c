@@ -409,6 +409,8 @@ static ShellValue evalBinExpr(ASTNode *expr, EvalCtx *ctx) {
                              expr->data.binary_expr.op == TOKEN_MUL ||
                              expr->data.binary_expr.op == TOKEN_DIV);
 	bool is_cmp = (expr->data.binary_expr.op == TOKEN_EQ ||
+			     expr->data.binary_expr.op == TOKEN_AND ||
+			     expr->data.binary_expr.op == TOKEN_OR ||
                              expr->data.binary_expr.op == TOKEN_GREATER ||
                              expr->data.binary_expr.op == TOKEN_LESS ||
                              expr->data.binary_expr.op == TOKEN_LEQ ||
@@ -492,6 +494,8 @@ static ShellValue evalBinExpr(ASTNode *expr, EvalCtx *ctx) {
 
 		if (can_num) {
 			switch (expr->data.binary_expr.op) {
+				case TOKEN_OR: result=newNumVal(num_left || num_right); break;
+				case TOKEN_AND: result=newNumVal(num_left && num_right); break;
 				case TOKEN_EQ: result=newNumVal(num_left==num_right); break;
 				case TOKEN_GREATER: result=newNumVal(num_left>num_right); break;
 				case TOKEN_LESS: result=newNumVal(num_left < num_right); break;
