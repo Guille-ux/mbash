@@ -528,6 +528,6 @@ static int evalCommandCall(ASTNode *stmt, EvalCtx *ctx) {
 	if (ctx->command_handler == NULL) {
 		return EVAL_OK; // si no hay nada, devolvemos ok y a llorar
 	} else {
-		return ctx->command_handler(stmt);
+		return ctx->command_handler(stmt, ctx);
 	}
 }
