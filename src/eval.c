@@ -446,19 +446,19 @@ static ShellValue evalBinExpr(ASTNode *expr, EvalCtx *ctx) {
 				if (left.type == VAL_STRING) {
 					left_str = left.as.str;
 				} else {
-					ltoa(left.as.num, num_buff, 10);
+					sprintf(num_buff, "%ld", left.as.num);
 					left_str = num_buff;
 	
 				} if (right.type == VAL_STRING) {
 					right_str = right.as.str;
 				} else {
-					ltoa(right.as.num, num_buff, 10);
+					sprintf(num_buff, "%ld", right.as.num);
 					right_str = num_buff;
 				}
 				char *concat = (char*)kmalloc(strlen(left_str)+strlen(right_str)+1);
 				if (concat==NULL) {
 					kprintf("[FATAL ERROR]\n");
-					return;
+					return result;
 				}
 				strcpy(concat, left_str);
 				strcat(concat, right_str);
