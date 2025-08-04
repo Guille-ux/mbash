@@ -43,7 +43,7 @@ typedef struct {
 	size_t argc;
 	size_t var_cap;
 	
-	int (*command_handler)(ASTNode *command);
+	int (*command_handler)(ASTNode *command, EvalCtx *ctx);
 
 	int last_exit_code;
 
