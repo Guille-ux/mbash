@@ -59,6 +59,8 @@ typedef enum {
 	TOKEN_WHITESPACE,
 	TOKEN_COMMENT,
 	TOKEN_SEMICOLON,
+	TOKEN_AND,
+	TOKEN_OR,
 	/*
 	 * Añadir más Tokens supongo
 	 * xD
