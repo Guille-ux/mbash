@@ -127,6 +127,7 @@ void setShellVarEntry(EvalCtx *ctx, size_t id, ShellValue val) {
 		ctx->var_cap=new_cap;
 		ctx->var_table = new_table;
 	}
+	ref_del(ctx->var_table[id].val);
 	ctx->var_table[id] = (Var){.val=ref_add(val), .is_exported=false, .is_set=true};
 }
 
