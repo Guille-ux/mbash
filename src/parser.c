@@ -586,9 +586,9 @@ static ASTNode **parse_expression_list(size_t *argc) {
 		
 			kfree(list);
 			list = new_list;
-			list[size++]=arg;
-	
 		}
+
+	list[size++]=arg;	
 	}
 	*argc = size;
 	return list;
