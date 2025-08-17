@@ -80,6 +80,7 @@ Var *getShellVarEntry(EvalCtx *ctx, size_t id);
 void setShellVarEntry(EvalCtx *ctx, size_t id, ShellValue val);
 void exportShellVar(EvalCtx *ctx, size_t id);
 
+ShellValue evalExpr(ASTNode *expr, EvalCtx *ctx);
 int eval(ASTNode *ast, EvalCtx *ctx);
 
 #endif
