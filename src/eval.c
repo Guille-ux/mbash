@@ -1,7 +1,6 @@
 #include "../include/eval.h"
 
 // Value
-static ShellValue evalExpr(ASTNode *expr, EvalCtx *ctx);
 static ShellValue evalNum(ASTNode *num);
 static ShellValue evalStr(ASTNode *str);
 static ShellValue evalVarRef(ASTNode *ref, EvalCtx *ctx);
@@ -332,7 +331,7 @@ static int evalFor(ASTNode *stmt, EvalCtx *ctx) {
 	return EVAL_OK;
 }
 
-static ShellValue evalExpr(ASTNode *expr, EvalCtx *ctx) {
+ShellValue evalExpr(ASTNode *expr, EvalCtx *ctx) {
 	if (!expr || !ctx) {
 		kprintf("Err -> Invalid parameters\n");
 		return (ShellValue){.type=VAL_NONE};
