@@ -356,7 +356,7 @@ static ShellValue evalVarRef(ASTNode *ref, EvalCtx *ctx) {
 	if (var_entry==NULL) {
 		return (ShellValue){.type=VAL_NONE};
 	}
-	return var_entry->val;
+	return ref_add(var_entry->val);
 }
 
 static ShellValue evalArgRef(ASTNode *ref, EvalCtx *ctx) {
