@@ -515,7 +515,7 @@ static ShellValue evalBinExpr(ASTNode *expr, EvalCtx *ctx) {
 		}
 	}
 
-	ref_add(left);
+	ref_del(left);
 	ref_del(right);
 	return result;
 }
