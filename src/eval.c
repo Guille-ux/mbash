@@ -360,7 +360,7 @@ static ShellValue evalVarRef(ASTNode *ref, EvalCtx *ctx) {
 }
 
 static ShellValue evalArgRef(ASTNode *ref, EvalCtx *ctx) {
-	return getShellArg(ctx, ref->data.arg_ref.num);
+	return ref_add(getShellArg(ctx, ref->data.arg_ref.num));
 }
 
 static ShellValue evalUnaryExpr(ASTNode *expr, EvalCtx *ctx) {
