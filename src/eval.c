@@ -441,13 +441,13 @@ static ShellValue evalBinExpr(ASTNode *expr, EvalCtx *ctx) {
 				if (left.type == VAL_STRING) {
 					left_str = left.as.str;
 				} else {
-					sprintf(num_buff, "%ld", left.as.num);
+					ltoa(left.as.num, num_buff);
 					left_str = num_buff;
 	
 				} if (right.type == VAL_STRING) {
 					right_str = right.as.str;
 				} else {
-					sprintf(num_buff, "%ld", right.as.num);
+					ltoa(right.as.num, num_buff);
 					right_str = num_buff;
 				}
 				char *concat = (char*)kmalloc(strlen(left_str)+strlen(right_str)+1);
