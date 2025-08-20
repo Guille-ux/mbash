@@ -37,18 +37,23 @@ ShellValue newNumVal(long num) {
 ShellValue newStrVal(const char *str) {
 	ShellValue val;
 	val.type = VAL_STRING;
-	val.as.str = strdup(str);
-	if (val.as.str==NULL) {
+	uint32_t len = strlen(str);
+	Obj *string = (Obj*)kmalloc(sizeof(Obj)+len+1);
+	val.as.str = (char*)((size_t)string + sizeof(Obj));
+	if (string==NULL) {
 		kprintf("Err -> Out of Memory\n");
 		val.type=VAL_NONE;
 	}
-	val.refc=0;
+	strcpy(val.as.str, str);
+	val.as.str[len]='\0';
+	string->refc = 1;
 	return val;
 }
 
 void freeVal(ShellValue val) {
 	if (val.type == VAL_STRING) {
-		kfree(val.as.str);
+		Obj *string = (Obj*)((size_t)val.as.str - sizeof(Obj));
+		kfree(string);
 		val.as.str = NULL;
 	}
 }
@@ -127,14 +132,20 @@ void setShellVarEntry(EvalCtx *ctx, size_t id, ShellValue val) {
 }
 
 ShellValue ref_add(ShellValue val) {
-	val.refc += 1;
+	if (val.type==VAL_STRING) {
+		Obj *data = (Obj*)((size_t)val.as.str - sizeof(Obj));
+		data->refc++;
+	}
 	return val;
 }
 
 void ref_del(ShellValue val) {
-	val.refc--;
-	if (val.refc<=0) {
-		freeVal(val);
+	if (val.type==VAL_STRING) {
+		Obj *data = (Obj*)((size_t)val.as.str - sizeof(Obj));
+		data->refc--;
+		if (data->refc == 0) {
+			kfree(data);
+		}
 	}
 }
 
@@ -151,7 +162,7 @@ ShellValue getShellArg(EvalCtx *ctx, size_t id) {
 		kprintf("Err -> Arg n. %d doesn't exist	\n", (int)id);
 		return newNumVal(0);
 	}
-	return ctx->argv[id].val;
+	return ref_add(ctx->argv[id].val);
 }
 
 void exportShellVar(EvalCtx *ctx, size_t id) {
@@ -260,7 +271,7 @@ static int evalIf(ASTNode *stmt, EvalCtx *ctx) {
 	ShellValue cond_val = evalExpr(stmt->data.if_stmt.condition, ctx);
 
 	bool is_true = isTruly(cond_val);
-	freeVal(cond_val);
+	ref_del(cond_val);
 
 	int status = EVAL_OK;
 	if (is_true) {
@@ -291,7 +302,7 @@ static int evalWhile(ASTNode *stmt, EvalCtx *ctx) {
 
 		ShellValue cond_val=evalExpr(stmt->data.while_loop.condition, ctx);
 		bool keep = isTruly(cond_val);
-		freeVal(cond_val);
+		ref_del(cond_val);
 		if (!keep) break;
 	} while (true);
 	return EVAL_OK;
@@ -308,7 +319,7 @@ static int evalFor(ASTNode *stmt, EvalCtx *ctx) {
 		if (stmt->data.for_loop.condition) {
 			ShellValue cond_val = evalExpr(stmt->data.for_loop.condition, ctx);
 			keep = isTruly(cond_val);
-			freeVal(cond_val);
+			ref_del(cond_val);
 		}
 		if (!keep) break;
 
@@ -458,7 +469,8 @@ static ShellValue evalBinExpr(ASTNode *expr, EvalCtx *ctx) {
 				strcpy(concat, left_str);
 				strcat(concat, right_str);
 	
-				result = (ShellValue){.type=VAL_STRING, .as.str=concat, .refc=0};
+				result = newStrVal(concat);
+				kfree(concat);
 			}
 		}
 	} else if (is_cmp) {
