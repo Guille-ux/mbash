@@ -12,13 +12,10 @@ typedef enum {
 	VAL_STRING,
 } ValType;
 
-struct Obj;
 struct ShellValue;
 
-typedef struct Obj { // para cuando use un GC
-	struct ShellValue *val;
-	struct Obj *next;
-	bool live; // tiene o no tiene vida, ser o no ser
+typedef struct {
+	uint32_t refc;
 } Obj;
 
 typedef struct ShellValue {
