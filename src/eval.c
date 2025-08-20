@@ -30,7 +30,6 @@ ShellValue newNumVal(long num) {
 	ShellValue val;
 	val.type = VAL_NUMBER;
 	val.as.num = num;
-	val.refc=0; // por si acaso
 	return val;
 }
 
