@@ -242,6 +242,7 @@ static int evalAssignment(ASTNode *stmt, EvalCtx *ctx) {
 	ShellValue val = evalExpr(stmt->data.assignment.expr, ctx);
 	size_t id = stmt->data.assignment.num;
 	setShellVarEntry(ctx, id, val);
+	ref_del(val);
 	return EVAL_OK;
 }
 
