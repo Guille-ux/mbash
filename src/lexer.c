@@ -84,9 +84,18 @@ static bool pattern(const char *str) {
 	 *
 	 */
 	
-	if (peek()<'Z' && peek()>'A') return false;
-	if (peek()<'z' && peek()>'a') return false;
-	if (peek()=='_') return false;
+	if (peek()<'Z' && peek()>'A') {
+		current_pos = last;
+		return false;
+	}
+	if (peek()<'z' && peek()>'a') {
+		current_pos = last;
+		return false;
+	}
+	if (peek()=='_') {
+		current_pos = last;
+		return false;
+	}
 
 	return true;
 }
